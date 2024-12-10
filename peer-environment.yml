@@ -1,0 +1,10 @@
+name: peer
+channels:
+  - conda-forge
+dependencies:
+  - r-devtools
+  - boost
+  - numpy
+  - swig
+  - eigen
+  - python-build
