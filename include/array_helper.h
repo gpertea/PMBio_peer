@@ -10,11 +10,9 @@
 #ifndef __ARRAY_HELPER_H__
 #define __ARRAY_HELPER_H__
 
-#include "Eigen/Eigen"
-#include "ap.h"
+#include <Eigen/Eigen>
 
 using namespace Eigen;
-using alglib::randomreal;
 
 double randn(double mu=0.0, double sigma=1.0);
 

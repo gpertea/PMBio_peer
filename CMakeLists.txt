@@ -1,12 +1,13 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.20)
 project(PEER)
+set(CMAKE_CXX_STANDARD 14)
 
 #build options
 #bindings
 #PYTHON on by default
 option(BUILD_PYTHON_PACKAGE "Enable Python bindings" ON)
 #R optional
-option(BUILD_R_PACKAGE "Enable R bindings" OFF)
+option(BUILD_R_PACKAGE "Enable R bindings" ON)
 
 #build stuff
 option(BUILD_UNIVERSAL "Build both 32 and 64 bit versions" OFF)
@@ -28,7 +29,7 @@ endif (BUILD_UNIVERSAL)
 #Python include directory 
 #normally there is no need to specify them;instead these are
 #auto-determined from the location of the binary.
-#SET(PYTHON_INCLUDE_DIRS "")
+SET(PYTHON_INCLUDE_DIRS "/usr/lib/python3/dist-packages/")
 #Python install directory
 #If specified, the peer module will be installed here. Otherwise the
 #default site-packages location of the respective python installation
@@ -74,6 +75,12 @@ endif (BUILD_UNIVERSAL)
 find_package(SWIG REQUIRED)
 include(${SWIG_USE_FILE})
 
+find_package(Eigen3 REQUIRED NO_MODULE)
+link_libraries(Eigen3::Eigen)
+
+find_package(Boost REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_SWIG_FLAGS "")
 
@@ -85,12 +92,10 @@ add_definitions(-g -Wextra -D_BSD_SOURCE)
 #fPic while compiling on
 #this seems to be needed on some linux systems
 #set(CMAKE_CXX_FLAGS "-fPIC -O3 -march=core2")
-set(CMAKE_CXX_FLAGS "-fPIC")
+set(CMAKE_CXX_FLAGS "-fPIC -O3")
 
-include_directories(./External/alglib/src)
 
 #add Cmake modules
-add_subdirectory(./External/alglib/src)
 add_subdirectory(./External/csv_parser)
 add_subdirectory(./src)
 
